@@ -7,12 +7,15 @@
       <th id="type">类型</th>
       <th id="location">服务器位置</th>
       <th id="uptime">在线时间</th>
-      <th id="load">负载</th>
+      <th id="load_1">负载</th>
       <th id="network">网络(B/s) ↓|↑</th>
-      <th id="traffic">流量(B) ↓|↑</th>
+      <th id="traffic">月流量(B) ↓|↑</th>
       <th id="cpu">CPU</th>
       <th id="ram">内存</th>
       <th id="hdd">硬盘</th>
+      <th id="ct">CT</th>
+      <th id="cu">CU</th>
+      <th id="cm">CM</th>
     </tr>
     </thead>
     <tbody id="servers">

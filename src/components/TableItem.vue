@@ -6,43 +6,64 @@
         </div>
       </div>
     </td>
-    <td>{{ server.name }}</td>
+    <td>{{ server.alias }}</td>
     <td>{{ server.type }}</td>
     <td>{{ server.location }}</td>
     <td>{{ server.uptime || '–' }}</td>
-    <td>{{ getStatus ? server.load : '-' }}</td>
+    <td>{{ getStatus ? server.load_1 : '-' }}</td>
     <td>{{
         getStatus ? `${tableRowByteConvert(server.network_rx)} | ${tableRowByteConvert(server.network_tx)}` : '–'
       }}
     </td>
     <td>{{
-        getStatus ? `${tableRowByteConvert(server.network_in)} | ${tableRowByteConvert(server.network_out)}` : '–'
+        getStatus ? `${tableRowByteConvert(server.network_in - server.last_network_in)} | ${tableRowByteConvert(server.network_out - server.last_network_out)}` : '–'
       }}
     </td>
     <td>
-      <div class="ui progress" :class="getProcessBarStatus(getCpuStatus)">
+      <div class="ui progress" :class="getStatus ? getProcessBarStatus(getCpuStatus) : 'error'">
         <div class="bar" :style="{'width': `${getCpuStatus.toString()}%`}">
           {{ getStatus ? `${getCpuStatus.toString()}%` : '维护中' }}
         </div>
       </div>
     </td>
     <td>
-      <div class="ui progress" :class="getProcessBarStatus(getRAMStatus)">
+      <div class="ui progress" :class="getStatus ? getProcessBarStatus(getRAMStatus) : 'error'">
         <div class="bar" :style="{'width': `${getRAMStatus.toString()}%`}">
           {{ getStatus ? `${getRAMStatus.toString()}%` : '维护中' }}
         </div>
       </div>
     </td>
     <td>
-      <div class="ui progress" :class="getProcessBarStatus(getHDDStatus)">
+      <div class="ui progress" :class="getStatus ? getProcessBarStatus(getHDDStatus) : 'error'">
         <div class="bar" :style="{'width': `${getHDDStatus.toString()}%`}">
           {{ getStatus ? `${getHDDStatus.toString()}%` : '维护中' }}
         </div>
       </div>
     </td>
+    <td>
+      <div class="ui progress" :class="getStatus ? getPacketLossStatus(server.ping_189) : 'error'">
+        <div class="bar" style="width:100%">
+          {{ getStatus ? `${server.ping_189}%` : '维护中' }}
+        </div>
+      </div>
+    </td>
+    <td>
+      <div class="ui progress" :class="getStatus ? getPacketLossStatus(server.ping_10010) : 'error'">
+        <div class="bar" style="width:100%">
+          {{ getStatus ? `${server.ping_10010}%` : '维护中' }}
+        </div>
+      </div>
+    </td>
+    <td>
+      <div class="ui progress" :class="getStatus ? getPacketLossStatus(server.ping_10086) : 'error'">
+        <div class="bar" style="width:100%">
+          {{ getStatus ? `${server.ping_10086}%` : '维护中' }}
+        </div>
+      </div>
+    </td>
   </tr>
   <tr class="expandRow">
-    <td colspan="12">
+    <td colspan="16">
       <div :class="{collapsed}" :style="{'max-height': getStatus ? '' : '0'}">
         <div id="expand_mem">内存信息: {{
             getStatus ? `${expandRowByteConvert(server.memory_used * 1024)} / ${expandRowByteConvert(server.memory_total * 1024)}` : '–'
@@ -52,11 +73,18 @@
             getStatus ? `${expandRowByteConvert(server.swap_used * 1024)} / ${expandRowByteConvert(server.swap_total * 1024)}` : '–'
           }}
         </div>
-        <div id="expand_hdd">硬盘信息: {{
-            getStatus ? `${expandRowByteConvert(server.hdd_used * 1024 * 1024)} / ${expandRowByteConvert(server.hdd_total * 1024 * 1024)}` : '–'
+        <div id="expand_ping">Ping CT/CU/CM: {{
+            getStatus ? `${server.time_189}ms / ${server.time_10010}ms / ${server.time_10086}ms` : '–'
           }}
         </div>
-        <!--        <div id="expand_custom">{{server.custom}}</div>-->
+        <div id="expand_loss">丢包 CT/CU/CM: {{
+            getStatus ? `${server.ping_189}% / ${server.ping_10010}% / ${server.ping_10086}%` : '–'
+          }}
+        </div>
+        <div id="expand_tupd">TCP/UDP/进程/线程: {{
+            getStatus ? `${server.tcp_count} / ${server.udp_count} / ${server.process_count} / ${server.thread_count}` : '–'
+          }}
+        </div>
       </div>
     </td>
   </tr>
@@ -95,7 +123,7 @@ tr.tableRow {
 tr.expandRow td > div {
   overflow: hidden;
   transition: max-height .5s ease;
-  max-height: 4em;
+  max-height: 8em;
 }
 
 tr.expandRow td > div.collapsed {

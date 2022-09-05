@@ -22,6 +22,12 @@ export default (props: Props) => {
     else return 'success';
   });
 
+  const getPacketLossStatus = computed(() => (data: number) => {
+    if (data >= 15) return 'error';
+    else if (data >= 5) return 'warning';
+    else return 'success';
+  });
+
   const tableRowByteConvert = computed(() => (data: number): string => {
     if (data < 1024) return data.toFixed(0) + 'B';
     else if (data < 1024 * 1024) return (data / 1024).toFixed(0) + 'K';
@@ -44,6 +50,7 @@ export default (props: Props) => {
     getRAMStatus,
     getHDDStatus,
     getProcessBarStatus,
+    getPacketLossStatus,
     tableRowByteConvert,
     expandRowByteConvert
   };

@@ -4,7 +4,7 @@
   <div class="container">
     <servers-table :servers="servers"/>
     <update-time :updated="updated"/>
-    <servers-card :servers="servers"/>
+    <!-- <servers-card :servers="servers"/> -->
   </div>
   <the-footer/>
 </template>
@@ -17,7 +17,7 @@ import TheHeader from '@/components/TheHeader.vue';
 import TheError from '@/components/TheError.vue';
 import ServersTable from '@/components/ServersTable.vue';
 import UpdateTime from '@/components/UpdateTime.vue';
-import ServersCard from '@/components/ServersCard.vue';
+// import ServersCard from '@/components/ServersCard.vue';
 import TheFooter from '@/components/TheFooter.vue';
 
 export default defineComponent({
@@ -26,7 +26,7 @@ export default defineComponent({
     TheHeader,
     TheError,
     ServersTable,
-    ServersCard,
+    // ServersCard,
     TheFooter,
     UpdateTime
   },
@@ -65,7 +65,7 @@ div.bar {
 /*Responsive*/
 @media only screen and (min-width: 1200px) {
   .container {
-    width: 1155px;
+    width: 1255px;
     margin: 0 auto;
   }
 }
@@ -81,25 +81,34 @@ div.bar {
   }
 }
 
-@media only screen and (max-width: 1075px) {
+@media only screen and (max-width: 1100px) {
   #type, tr td:nth-child(3) {
     display: none;
   }
 }
 
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width: 1000px) {
   html, body {
     font-size: 13px;
   }
 }
 
-@media only screen and (max-width: 910px) {
+@media only screen and (max-width: 950px) {
   #location, tr td:nth-child(4) {
+    display: none;
+  }
+  #ct, tr td:nth-child(12) {
+    display: none;
+  }
+  #cu, tr td:nth-child(13) {
+    display: none;
+  }
+  #cm, tr td:nth-child(14) {
     display: none;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   html, body {
     font-size: 12px;
   }
@@ -124,25 +133,25 @@ div.bar {
   }
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 780px) {
   #uptime, tr td:nth-child(5) {
     display: none;
   }
 }
 
-@media only screen and (max-width: 660px) {
-  #load, tr td:nth-child(6) {
+@media only screen and (max-width: 690px) {
+  #load_1, tr td:nth-child(6) {
     display: none;
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 630px) {
   #traffic, tr td:nth-child(8) {
     display: none;
   }
 }
 
-@media only screen and (max-width: 533px) {
+@media only screen and (max-width: 560px) {
   #name, tr td:nth-child(2) {
     min-width: 20px;
     max-width: 60px;
